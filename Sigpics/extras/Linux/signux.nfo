@@ -1,0 +1,65 @@
+
+	signux .. a Linux picsig data client
+	
+	signux relies on the services of the "xmms info-pipe" which we parse to create
+	the data to send for our picsig update. When signux is done, picsig should receive
+	something like this..
+
+	$_POST: 	Array
+	(
+		[user] => USERNAME
+		[pass] => PASSWORD
+		[playing] => Playing
+		[uptime] => 291824
+		[length] => 362
+		[pos] => 180
+		[title] => Ellington & Coltrane - Angelica
+		[status] => 6:02m | 192kb/s | 44KHz
+		[dir] => Duke Ellington And John Coltrane (1962)
+	)
+
+	I'm around half way through the song when this update occured. picsig uses
+	the positional data to know where to put the progress bar if you did any jumping
+	around in the track, and with the Linux/infopipe setup, this information is always
+	available, even if you just move the slider in your media player. neat.
+
+	the only downside is that at the very end of a playlist, it (xmms, I presume) sets the
+	pointer to the start of the first song on the list, rather than leaving it at the
+	end of the last. och well, we can't have everything.
+
+
+	to use:
+
+		*	edit the preferences within signux, username, password, URL of picsig, etc.
+
+			note: there are two sets of prefs, with some code in the middle. this code
+			grabs information that we then use for the 'status' info (2nd set of prefs).
+		
+		*	drop signux into your PATH. "/user/local/bin" is a good choice.
+
+		*	make signux executable..
+
+				chmod +x /usr/local/bin/signux
+
+		*	run signux!
+
+			you can either run this as a cron job, say every minute..
+
+				*/1 * * * * /usr/local/bin/signux > /dev/null 2>&1
+
+			or put it inside some perpetually looping shell script and drop into your
+			startup sequence (I might put together one of these) and every minute, signux
+			will send a POST request to picsig with your current data set.
+
+	The whole operation uses very little resources, and runs perfectly on my old 533MHz
+	Linux box.
+	
+	note: there are a couple of extra data types inside signux, stuff you might want to use
+	for new picsig data types, processor, etc, the sorts of things that are fairly easy to
+	grab on a Linux box. You can insert these into one of the three "custom" data types, 
+
+		&custom="whatever you like"
+
+	If you have any difficulties, suggestions, whatever, either post at the picsig site
+	or mail me at the usual address.. <pics@picscoins.org?subject=signux>
+

@@ -1,0 +1,98 @@
+<?php
+// do not alter anything above this line!
+
+/*
+	picsig BIG spidey  scheme
+
+	see "standard.scheme" for a full description of all the settings.
+
+	(c) (or @ corz.org & picsig.picscoins.org 2005 ->
+												*/
+$fields[1]['id'] = 'playing';
+$fields[2]['id'] = 'status';
+$fields[3]['id'] = 'title';
+$fields[4]['id'] = 'album';
+$fields[5]['id'] = 'uptime';
+$playing_string = 'now spinning..';
+$stopped_string = 'last spun..';
+$truecolor = true;
+$q = 90;
+$output_format = 'jpg';
+$do_col_bg = false;
+//$img_width = 321;
+//$img_height = 83;
+$image_file = 'img/spidey.png';
+$merge_images = true;
+$transparency = 70;
+$merge_x = 0;
+$merge_y = 0;
+$mx_nudge = 0;
+$my_nudge = 0;
+
+$border = 2;
+$frame_color = '#000000';
+$do_frame = true;
+
+$target_color = '#f0ff32';
+$variation = 15;
+$font_size = 2;
+$text_color = '#FFFF88'; // black
+$ttf = true;
+$font_face = 'fonts/edg'; 
+$font_face = 'fonts/abtechia';
+$ttf_size = '8';
+$align = 'left';
+$antialiasing = true;
+$trim_adjust = 0;
+$field[1]['em'] = 3;
+$field[2]['em'] = -2;
+$field[3]['em'] = 0;
+$field[4]['em'] = 0;
+$field[5]['em'] = -2;
+$field[6]['em'] = 0;
+$leading = 6;
+$nudge = 5;
+$push = 8;
+$skew = 0;
+$field[1]['fp'] = 0;
+$field[2]['fp'] = -1;
+$field[3]['fp'] = 0;
+$field[4]['fp'] = 0;
+$field[5]['fp'] = 0;
+$field[6]['fp'] = 0;	
+$do_bargraph = true;
+$thickness = 15;
+$squeeze = 0;
+$xnudge = 0; // default: 0
+$ynudge = 0; // default: 0
+$btxt_color = '#339966';
+$btxt_trans = false;
+$btxt_size = 1;
+$btxt_valign = 'middle';
+$do_browser_info = true;
+$ip_string = 'your ip is.. ';
+$use_themes = true;
+$theme =  'regular feiry progress with cheese'; // the default
+//$theme =  'gentle fire';
+//$theme =  'interesting feiry'; // (watch out for thick borders!)
+//$theme =  'basic grey grad';
+//$theme =  'gentle grey grad';
+//$theme =  'the torrenteer';
+//$theme =  'swarm member x';
+//$theme =  'ouch!';
+//$theme =  'mr. green';
+//$theme =  'mrs. green';
+//$theme =  'toffee mint';
+//$theme =  'green meanie';
+//$theme =  'deep sky fader';
+//$theme =  'blue duo';
+//$theme =  'multicoloured';
+//$theme =  'its gonna break';
+//$theme =  'stripees';
+//$theme =  'white into red';
+//$theme =  'black into white';
+$calc_red 	= '255-(($i/2)/255)';
+$calc_green = '255-($i/2)';
+$calc_blue 	= '($i/2)-255';
+$termination = 1;
+?>

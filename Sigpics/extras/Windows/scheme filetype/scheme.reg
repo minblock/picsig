@@ -1,0 +1,44 @@
+REGEDIT4
+
+; picsig scheme (picsig php include file)
+
+; you probably keep your favourite text editor in a different place
+; I've set the default to Notepad, which all windows users should have
+; though it is braindead and will mince the UNIX linebreaks. 
+
+; don't forget the icon location at the bottom
+
+; when you're done, "merge" into the registry.  note "merge" should never
+; be your default command, but I bet it is! 
+
+; (c) (or @ corz.org + picsig.picscoins.org 2005 ->
+
+[HKEY_CLASSES_ROOT\.scheme]
+@="picsig-scheme"
+"Content Type"="application/text"
+
+; disabled scheme.
+[HKEY_CLASSES_ROOT\._scheme]
+@="picsig-scheme"
+"Content Type"="application/text"
+
+[-HKEY_CLASSES_ROOT\picsig-scheme]
+[HKEY_CLASSES_ROOT\picsig-scheme\shell]
+@="open"
+
+[HKEY_CLASSES_ROOT\picsig-scheme\shell\open]
+@="open in notepad"
+
+[HKEY_CLASSES_ROOT\picsig-scheme\shell\open\command]
+@="Notepad.exe \"%1\""
+
+[HKEY_CLASSES_ROOT\picsig-scheme\shell\edit]
+@="edit in EditPlus"
+
+[HKEY_CLASSES_ROOT\picsig-scheme\shell\edit\command]
+@="C:\\Program Files\\Text Ed\\editplus\\editplus.exe \"%1\""
+
+; change this to wherever you keep your icons
+[HKEY_CLASSES_ROOT\picsig-scheme\DefaultIcon]
+@="C:\\toolbars\\toolicon\\pic-scheme.ico,0"
+

@@ -1,0 +1,113 @@
+<?php
+// do not alter anything above this line!
+
+/*
+	picsig test scheme
+	see "standard.scheme" for a full description of all the settings.
+
+	this scheme won't show up in random selections and must be specified..
+
+		http://mydomain.com/path/to/pic.php/test.png
+
+	which I find useful for testing stuff without worrying that my testing
+	will randomly also become my 'public' sig.
+
+		http://picsig.picscoins.org
+
+	(c) (or @ corz.org & picsig.picscoins.org 2005 ->
+											*/
+
+// text field contents
+$fields[1]['id'] = 'playing';
+$fields[2]['id'] = 'status';
+$fields[3]['id'] = 'title';
+$fields[4]['id'] = 'counter';
+
+$status_affixes = array('[', ']');
+
+$playing_string = '  now playing..';
+$stopped_string = '  last played..';
+
+// quality levels
+$truecolor = true;
+$q = 85; // png is always 100%
+$output_format = 'png';
+$reduce = false;
+$interlace = false;
+$greyscale = false;
+$r_balance = 0;
+$g_balance = 0;
+$b_balance = 0;
+$gamma = 1.0;
+
+// background image
+$color_layer = true;
+$img_width = 321;
+$img_height = 90;
+//$image_file = 'img/olines.png';
+
+// merged
+$merge_images = false;
+$pre_merge = true;
+$transparency = 70;
+$merge_x = 0;
+$merge_y = 0;
+$mx_nudge = 0;
+$my_nudge = 0;
+
+// random background colours
+$target_color = '#face38';
+$variation = 0;
+
+// frame..
+$border = 1;
+$frame_color = '#000000';
+$do_frame = true;
+
+// text.
+$font_size = 2;
+$text_color = '#336600';
+$ttf = true;
+$font_face = 'fonts/edg';
+$ttf_size = '9';
+$antialiasing = true;
+$bold = false;
+$align = 'center';
+$field[1]['em'] = 2;
+$field[2]['em'] = -2;
+$field[4]['em'] = -2;
+
+// move all the text
+$leading = 6;
+$nudge = 0;
+$push = 5;
+$skew = 0;
+$trim_adjust = 0;
+$auto_shrink = true;
+
+// move lines..
+$field[2]['fp'] = -1;
+//$field[2]['align'] = 'right';
+
+// progress bar..
+$do_bargraph = true;
+$thickness = '14';
+$squeeze = 2;
+$xnudge = 2; 
+$ynudge = -2;
+//$btxt_color = '#ffdd00';
+$btxt_trans = false;
+$btxt_size = 1;
+$btxt_valign = 'middle';
+$do_browser_info = true;
+$ip_string = 'your ip is.. ';
+$use_themes = true;
+$theme =  'foo';
+$lf = 1;
+$termination = 1;
+//$term_color = '#ff0000';
+$bar_frame = 1;
+$bar_trans = 0;
+
+// do not alter anything below this line!
+?>

@@ -1,0 +1,3 @@
+#<Files ~ "\.(inc|ini|conf|cfg|php|scheme|_scheme)$">
+#	deny from all
+#</Files>

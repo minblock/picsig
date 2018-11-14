@@ -1,0 +1,154 @@
+AMIP Variables
+
+Generic Variables
+
+If-then-else (conditional) constructions are allowed. e.g. %?1<%1 - %2|%no> 
+(if Artist is present then print Artist - Title, else print file name only). 
+Another expicle: %?VBR='yes'<%ABR|%br>. The word in quotes is matched against 
+the variable as a regular expression. Conditional statements can be also 
+written using Functions. 
+
+
+%name		This variable represents song title and artist in ARTIST - TITLE format. 
+			ARTIST and TITLE are taken from any of the available tag types. If the file 
+			contains no supported tags, file name is used for %name. (File name doesn't 
+			contain extension). If playing unsupported file type, title from player is used. 
+			%s This variable stands for the song header as it was tuned in Player settings, 
+			generally it's again ARTIST - TITLE, but you can change it in the Player Preferences. 
+
+%fl			A float digit for size of playing file (e.g. 3.56) 
+%fn			Full file name with extension and path. e.g. c:\song.mp3 
+%nm			Name with extension (without path) e.g. song.mp3 
+%no			File name only e.g. song 
+%ext			File extension (mp3/wma/wav/vqf/...) 
+%fdir			directory name (e.g. for C:\Music\Metallica\Best Of\Nothing-Else Matters.mp3) 
+			it will be set to "Best of" 
+%fupdir			up-directory name (e.g. for C:\Music\Metallica\Best Of\Nothing-Else Matters.mp3) 
+			it will be set to "Metallica" (highly unlikely, no one actually listens to metallica, surely)
+%sr			Spicling frequency(Khz) e.g. 44 
+%br			Bit-rate (Kbps) e.g. 128 
+%typ			Song mode e.g. Stereo or Mono 
+%min			Minutes component of song length (mm) 
+%sec			Seconds component of song length (ss) 
+			Should be used together like (%min:%sec) 
+%mil			Minutes left (mm) 
+%sel			Seconds left (ss) 
+%mode			Operating mode: Joint Stereo/Stereo/Mono/Dual Channel - advanced version of %typ  
+%page			URL of page where you can get latest Plug-In version 
+%vol			Winpic volume (0..255) now should work with any player 
+%ps			current song position (seconds) 
+%pm			current song position (minutes) 
+%psec			current song position in seconds 
+%hstpic			current time hours 
+%mstpic			current time minutes 
+%sstpic			current time seconds 
+%dstpic			current day of month 
+%ystpic			current year 
+%monstpic		current month 
+%prc			the current percentage of song being played. Useful for clipboard integration and mIRC scripting 
+%repeat			(on/off) repeat state 
+%shuffle		(on/off) shuffle state 
+
+
+
+Flags..
+
+Flag Value 
+%mp3		variable which can be used to determine that playing file is the mp3 in if-then-else constructions 
+%id3		variable which can be used to know that ID3 tag was read correctly in if-then-else constructions 
+%playing	flag to determine whether winpic is playing 
+%mac		monkey audio file (.mac or .ape) 
+%ape		APEv1 or APEv2 tag presence 
+%flactag	FLAC tag presence 
+%flac		FLAC file (.fla or .flac) 
+%mpc		MusePack file format  
+
+Expicles:
+
+/echo [MP3] %name [%fl~mb] [%min~m%sec~s] [%br~kbps]
+('~' is used to separate variable from following text, it is removed from output) 
+
+
+
+
+ID3v1 & ID3v2 Common Variables
+(also availabe for Ogg, APE, FLAC and other supported tag types) 
+
+Variable Value 
+%1		Artist 
+%2		Title 
+%3		Track Number 
+%4		Album 
+%5		Year 
+%6		Comment 
+%7		Genre 
+
+Expicles:
+
+/me is listening to %1 - %2 (%4|%5|%7)
+
+
+
+Header Variables
+(must have enabled EncSpot library inAMIP (performance) prefs) 
+
+Variable Value 
+%ABR	Average bitrate of mp3 file 
+%VBR	(yes/no) shows if file has VBR 
+%ENC	encoder used to make mp3 file 
+%LEN	(e.g. 00:03:19) song length 
+%FRQ	(e.g. 44100) Samlping frequency (hz) 
+%MOD	(e.g. joint stereo) Mode 
+%FRM	number of frames 
+%FSZ	(e.g. 4,157,036) file size in bytes 
+%TYP	(e.g. mpeg 1 layer III) - mpeg and layer version 
+%QUO	(good/ok/bad) a rough determination of the quality of the file. 
+	Determined solely by the encoder used, the bitrate, and the stereo mode 
+%EMP	Emphasis 
+%COM	(yes/no) if file is complete (not broken) 
+%ERR	number of sync errors 
+%CPR	(yes/no) Copyrighted 
+%ORG	(yes/no) Original 
+%CRC	(yes/no) CRC 
+
+Lame header: 
+%MET	Lame VBR method 
+%REV	Lame tag revision 
+%LABR	Lame ABR bitrate 
+%LQUA	Lame quality (0..100) 
+%LAM	(yes/no) lame header existance 
+
+ 
+
+Advanced Variables
+
+Variable Value 
+%tstat		text playback status (playing, paused, stopped)
+%stat		numeric playback status (playing = 1, paused = 3, stopped = 0)
+ 
+%lver		Layer Version. e.g. Layer 3 
+%mver		Mpeg Version. e.g. MPEG Version 1 
+%head		32bit Mpeg header represented as a bitset. See www.mp3-tech.org for description. 
+		Usefull if you want to get and format header information from your mIRC script. 
+%at		Number of bytes from the file beginning where first mpeg header was found 
+%ver		Winpic version (e.g. 2.72) 
+%pv		Plugin version (e.g. 0.71) 
+%ll		Playlist length  
+%pos		Current position in the playlist 
+%sl		Song length in seconds 
+%sle		Seconds left to play  
+ 
+Tag versions: 
+%id3v1		(yes/no) ID3v1 tag 
+%id3v2		(yes/no) ID3v2 tag 
+%Lyrics		(yes/no) Lyrics tag 
+%Lyrics3v2	(yes/no) Lyrics3v2 tag 
+%MusicMatch	(yes/no) MusicMatch tag 
+%apev1		(yes/no) APE v1.0 tag 
+%apev2		(yes/no) APE v2.0 tag 
+%FLAC		(yes/no) FLAC tag 
+
+Expicles:
+
+/echo &c10[&c0MP3&c10]&c0 &u%name&u &c10(&c15%4&c10|&c15%5&c10|&c15%7&c10)&c0%lb&c10[&c15%fl~mb&c10] [&c15%min~m%sec~s&c10] [&c15%br~kbps&c10] [&c15Plugin v%pv&c10] [&c15WinPic v%ver&c10]
+

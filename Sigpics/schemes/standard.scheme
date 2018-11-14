@@ -1,0 +1,651 @@
+<?php
+/*
+
+		-!-   utf-8 (no bom); unix linefeeds; text: monaco/ProFont 9pt, 4 spaces/tab   -!-
+			 -!-  this file does _not_ need to be world-writable (chmod 755-ish)  -!-
+
+
+										picsig (for AMIP)
+				 			 corz dynamic sig file generator thing
+
+
+		picsig "standard" scheme file
+
+		here you can set the various visual characteristics of your picsig. for the latest
+		version of this information, see here..
+
+			http://picsig.picscoins.org/schemes/preferences.php
+
+
+		for n00bs..
+
+			values are usually either strings (words inside 'quotes'), integers (numbers,
+			i.e "0", without the quotes) or boolean values. booleans can be entered as "true"
+			or "false" (no quotes, NEVER quotes when quoting!). true can be entered as "1",
+			false as "0" (again, no quotes), but using words for booleans  is usually a lot
+			smarter in the long run.
+
+			later values override earlier values.
+
+			is *is* okay to comment out values you don't want. if anything critical is missing
+			picsig will use its default value for that preference.
+
+			in most cases, the default and/or suggested values are noted along with the
+			preference, though it's always a good idea to make a backup *before* you start
+			messing around with your preferences, and after every successful batch of changes.
+			just make a copy and gice it a new name, then you can start work on the next version..
+
+			if you're hacking at the php, remember, if any error messages crop up in your browser, 
+			you'll need to "view source" to see them.
+
+			have fun!		
+			
+			;o)
+			(o
+
+
+			(c) (or + corz.org & picsig.picscoins.org 2005 ->
+																								*/
+
+/*
+	fields
+	our individual rows of text; 1, 2, 3, etc..
+
+	default is four, but I've rewired this so there's no maximum, you can switch them on and
+	off (just comment them out), and even have blank lines ( use '' as the value), re-arrange them,
+	do pretty much whatever you like. field 1 is the top row, field 2 the second, etc, etc.
+	*/
+$fields[1]['id'] = 'playing';
+$fields[2]['id'] = 'status';
+$fields[3]['id'] = 'title';
+//$fields[3]['id'] = '';
+$fields[4]['id'] = 'album';
+//$fields[4]['id'] = 'uptime';
+//$fields[5]['id'] = 'last'; // for expicle
+//$fields[6]['id'] = 'uptime'; // etc..
+
+/*	possible values..
+	might add more of these as time goes on, what else do we need?
+
+	'playing'	:	'now playing..', or 'last played..', depending.
+	'status'	:	an arbitrary message (make it up), maybe bitrate info, a string. (will be enclosed in [])
+	'title'		:	'title', usually,  "artist - song name" from the ID3 tag (or filename, if there's no ID3)
+					AMIP can output this as %name", both AMIP and macsig users can create it themselves
+					from a whole host of available variables (say that when your drunk!)
+	'artist'	:	the name of the artist, you can send this separately, if you want it on a separate line
+	'album'		:	the name of the album, or containing folder if album ID3 tag is missing
+	'last'		:	the previously played track
+	'counter'	:	how many times the sig has been viewed
+	'uptime'	:	you need the uptime add-on ("uTu" - included in this distribution ) installed and
+					working for this to happen. macsig and signux have this built-in.
+	'custom'	:	just another field (like status) you can use for whatever you like.. "&custom=any old text here"
+	'custom2'	:	ditto.. "&custom2=some more text I want you to see" maybe your film of the week!
+	'custom3'	:	and again. we could add even more, I guess. or favourite book of the month, I dunno..
+*/
+
+
+// what characters to put each end of the 'status' text..
+$status_affixes = array('[', ']');
+
+
+// text to use for 'playing' field..
+// you may need to add a space at the start/end to center certain ttf fonts or lop-sided strings.
+$playing_string = ' now playing..';
+$stopped_string = ' last played..';
+
+
+/*
+	(work with and) output true colour?		[default: false]	[needs GD 2 to work]
+
+	older servers (with old GD) can't do this, but it does look better.
+	makes for finer rendering of truetype fonts, especially when skewed.
+	but remember, truecolor images are bigger. your call..
+
+	if you are merging truecolor images, disable this for some "interesting" effects!
+																						*/
+$truecolor = false;
+
+
+// image quality 
+// (percentage (%) more quality = bigger images)
+// png will always output at 100%
+$q = 100;
+
+
+/*	output format..
+
+	choose from 'png' or 'jpg'..
+	if you are using truecolor, you might want to output jpegs
+	(at around q = 75) for images around the 10-15Kb mark.
+	or else you will be producing large (50Kb+) images. a full-
+	quaity "imac-girl" sig with semi-transparencies will be over 100k! w00t!
+	
+	if not using trucolor, choose 'png'. (or 'gif', if you really must!)
+																	 */
+$output_format = 'png';
+
+
+/*
+	reduce colours (to 8 bit - 256 colours)..
+
+	If you output a gif, it is always "low color", that is, 256 colours. 
+	If you output a jpeg, it is always "true color", thousands or millions of colours.
+	However, if you output a png, you have a choice. reducing the colors (to 256, an
+	8 bit image) will reduce your filesize to around a third of the truecolor version,
+	but it will look almost as bad as a gif!
+
+	If quality is what matters, output a png and do not reduce.
+	If size/bandwidth is what matters most, output a png and DO reduce.
+	If you can handle some loss of quality, and don't require transparency, consider jpeg output.
+	If you want 8-bit small filesize, AND high quality, consider using greyscale.
+																				*/
+$reduce = false;
+
+
+/*
+	interlace
+
+	interlacing causes the image to appear in the browser progressively in layers. First a blocky layer, 
+	you can make out what it is, but that's all, then another layer with finer detail, you can see the
+	image fine, and lastly, the highest resoltion is filled in until the image is complete. this looks
+	very nice but unlike jpeg interlacing, will *increase* the size, generally creating files around 
+	20% - 25% bigger than regular images. the choice is yours.
+
+	If you dsable interlacing (false), the image appears top-to-bottom. most servers are so fast that
+	people would actually notice much difference, the image is *just there*.
+																					*/
+$interlace = false;
+
+
+
+/*	transparent png's..
+
+	if you want transparent images with rounded edges or interesting shapes, picsig can do it. you can 
+	have not only "rounded" edges and interesting shapes, but areas of semi-transparency where the 
+	background will will show through. check out my "iMac Girl" scheme, the mac screen allows the 
+	background to show through very slightly. this effect can be subtle (yet highly effective) or you 
+	can just leave big empty spaces and have the text and progress bar float over the top of them. 
+	experimentation is the key.
+
+	to use: simply set the transparency levels in your source image and save it as a png with alpha channel.
+	
+
+	note:	when reducing to 8 bit, making greyscale, etc, picsig will assume the top-left pixel to be of the 
+			color you wish to be transparent (8 bit images can only have one single transparent color, 
+			not a "range" like an alpha layer), ensure that this is so in your original png if you plan 
+			to utilize either of these manipulations.
+
+
+	important:	to use alpha transparency, disable the built-in image layer with these two settings..
+			
+				$color_layer = false;
+				$do_frame = false;
+
+
+	note:	you can still use the old-school single-color transparency method, and specify that colour,
+			but that system is depricated, and using proper alpha channel transparency is recommended 
+			every time.
+*/
+
+
+/*
+	color layer
+					*/
+
+// have picsig generate its own cool pseudo-random colored filled background.
+// if you merge with an external image, this will produce a colored "overlay"
+// highly effective, and a very pleasing effect. very useful for "taming" contrasty
+// images before overlaying text.
+$color_layer = true; // YES!
+
+// how big would you like your picsig to be?
+// if you comment these out, the size will be determined by an external background image.
+// if you comment them out DON'T have an external image, they will default to..
+// $img_width = 350; $img_height = 80;
+$img_width = 321;
+$img_height = 83;
+
+/*
+	external background image..
+
+	because  input image quality is of prime importance,  png's are the only accepted
+	input format. if you simply *must* use a jpeg, convert it to png first! there are loads
+	of free image viewers that will do this for you.
+	
+	comment out this line (or use an empty value) to disable external image loading		*/
+//$image_file = 'img/spidey.png';
+
+
+/*	merge images
+
+	you can get some really nice effects by merging the fixed (external) and dynamic 
+	(internal) image layers. check out the screenshots page for a few expicles.
+	this also allows you to merge *parts* of bigger images into your picsig.
+																					*/
+$merge_images = false;
+
+
+/*
+	if you enable the built-in background, the progress bar will be layed on top
+	of it, so when you merge with the external image, the progress bar will merge
+	in as well. if you disable the built-in background, the progress bar will be
+	layed directly onto the external image.		*/
+
+
+// we can pre-merge picsig, before the progress bar goes on, this makes colours
+// more vived (saturated) especially when working with strong overlays. this setting
+// is only useful if you are merging, otherwise it does nothing.
+$pre_merge = true;
+
+
+// how transparent will the colour layer be? [percent(%) ~ 0-100]
+// the color_layer goes on top of the external image, so at 0 transparency
+// you would only see the color layer, being totally opaque.
+// the bigger the number, the more your source image will show through.
+// if truecolor is disabled, you will need higher transparency values when merging.
+// values over 100 will produce very strange (often stunning) results!
+$transparency = 80;
+
+
+/*
+	greyscale..
+		
+	make your sig look like an old photo! highly effective with certain sigs, daft with others.
+	this will give you a very high quality 8 bit image.
+	*/
+
+$greyscale = false;
+
+
+/*
+	greyscal colour balance
+	
+	when using greyscale, you can shift the gray into any hue you desire..
+	you can use any value from -255 to 255. if you stick within these limits the colours will 
+	loop right round the colour spectrum and produce predictable results, but you are free to 
+	go outside these limits and explorer php's "interesting" ability to mix colours outside 
+	the the visible spectrum! have fun!
+
+	red at 20, green at say, 5, would give you a nice "sepia" tone.
+
+	*/
+$r_balance = 0;
+$g_balance = 0;
+$b_balance = 0;
+
+
+/*
+	gamma adjustment
+
+	the base gamma is 1.0, feel free to adjust it to whatever you like, 
+	say 1.5, or something. note: you will lose your alpha transparency
+	if you play with this. picsig will attempt to make a single-layer
+	transparency instead.
+	*/
+$gamma = 1.0;
+
+
+
+// at what position in your external image do you wish to begin
+// the overlay (x,y) 0,0 would be the normal top-left position.
+// this allows you to use a small part of a big image.
+// if you set this larger than the source image, you'll just get black
+// works even when you aren't merging.
+$merge_x = 0;
+$merge_y = 0;
+
+// you may wish to shift the external image for some reason..	[0,0]
+// also works when not merging.
+$mx_nudge = 0;
+$my_nudge = 0;
+
+
+/*
+	so, if you set the image size, you can use "parts" of larger images as your
+	external image. 
+
+*/
+
+
+/*
+	background colour
+
+	a randomdingly coloured background will be generated.
+	the range of colours used, and just how randommmmm they are, is up to you..
+
+	note: colour preferences are entered using their HEX values, just like in HTML. The leading
+	'#' is optional. for a nice page with lots of colours and their html values, go here..
+
+		http://www.mistupid.com/computers/htmlcolor.htm
+
+	or grab a cute wee tool (not mine), here.. 	http://corz.org/public/stuff/colorcalc.zip
+
+	if you use em editor <http://www.emeditor.com/> or EditPlus (my most used win32 editor these days)
+	on the peecee, they have color-pickers that will paste back the hex value of whatever colour you
+	select. (em also give me a free "developers license", and em has the best syntax highlighting
+	in the world, too. though sadly it lacks any code library facility, at this time.)
+																							*/
+// target colour..
+// represents the lightest possible generated color.
+$target_color = '#f0ff32';
+
+
+// variation (colour deviation) range	(0-255)
+// this determines the range of possible colours.
+// 0 = static (no change), 255 = include all possible colours.
+// default is 15, a small range.
+$variation = 15;
+
+/*	notes..
+	a target_color of #f0ff32 with a variation of 15 produces a nice wee range of yellow/green colours which
+	I like. if you widen the range, you can make things more random (eg. 100 instead 15) if you alter the
+	colour target, you shift the spectrum used, effectively you can mix any color range you like..
+	$target_color = '#ffffff'; $variation = 255;  would give you all possible colours. *ouch!*
+	$target_color = '#ffffff'; $variation = 0;  would give you a white background 
+	(which you might also want to make transparent) when using external source images, the color layer
+	can be highly effective in "taming" the contrast so you can lay text readably over the top.
+ */
+
+
+// frame..
+
+// width of frame border (small is better, but bigger can be interesting too)
+// if you're using an external image, and it has a "frame", set its width here
+// so that the funky progress bar can hug its inside.
+$border = 1;
+
+
+// frame colour
+//
+// the default is to use the opposite of the background colour.
+// to use some other colour, uncomment this line and enter a hex color value..
+$frame_color = '#000000';
+
+// you can define its size (above) so the progress bar can automatically hug its inside, but then
+// simply leave it undrawn (false), in which case the background image will show through.
+// can be very effective.
+$do_frame = true;
+
+
+/*
+	text
+
+	fine-tune the text with the following settings..
+																*/
+// size of font		[1 - 5, default: 2]
+// this is for the GD built-in font..
+$font_size = 2;
+
+// color of main text..		[default: $text_color = '#000000';]
+// if you comment out this line, picsig will use the colour opposite to the background
+// color, enabling you to setup some really wacky random backgrounds (and always have readable text).
+$text_color = '#000000'; // black
+
+// use truetype fonts?		[true/false]
+// your web(host's)server needs to support this.
+// if you use truetype fonts, switching web hosts would probably mean some tweaking.
+$ttf = false;
+
+/*	TrueType font face..	[default: $font_face = 'ProFontWindows';]
+
+note: you must use the font's filename, ie. Lucida Console is 'lucon'. unless you specify
+a full path starting with either '/' or 'C:\', etc, php will add '.ttf' to the name and search along
+the GD font path. so for this to work, the font must be available on the webserver, or else living in
+the same folder as pic.php. this setting is only effective if $ttf = true;	(above)			*/
+$font_face = 'fonts/profont';
+//$font_face = 'edg';
+
+// if the above doesn't work, try this.. (my GD1.6 web host needs this)
+//$font_face = realpath('edg.ttf');
+
+// Set the ttf enviroment variable for GD, just in case..
+// if you are using one of the server's system fonts (ie. NOT living next to pic.php), comment this out..
+//putenv('GDFONTPATH=' . realpath('.'));
+
+// lastly, DO NOT USE UPPERCASE FILE EXTENSIONS! 
+// (or spaces in the font's name), PHP has issues with these.
+
+// truetype font size?	[GD1 use pixel size, GD2, use point size]
+$ttf_size = '9';
+
+// bold text?		[default: $bold = false;]
+// this is a pseudo-bolding effect you can add to non-bold fonts..
+// you can set higher levels of pseudo-bolding, by using a number instead of true/false,
+// but it will quickly become unreadable. true equates to $bold = 1;
+$bold = false;
+
+// you can disable antialiasing if you need to..	[true/false]
+// seems to make almost no difference. could be my code.
+$antialiasing = true;
+
+// centre the text?		[true/false]
+$align = 'center';
+
+
+
+//	field emphasis
+
+// very simply, you can adjust the size of each field, bigger or smaller, depending on the content.
+// 'now playing..' titles are big, 'uptime' is small, etc.. 
+// 0 = no emphasis (uses specified text size) 1,2,3, etc is bigger, -1,-2,-3, etc is smaller.
+// for built-in font, use mostly zero (0) [note: it's okay to leave unused values uncommentes]
+$field[1]['em'] = 1;	// 2	(ttf)
+$field[2]['em'] = 0;	// -1	(ttf)		<- guidelines!
+$field[3]['em'] = 0;	// 0	(ttf)
+$field[4]['em'] = 0;	// -2	(ttf)
+$field[5]['em'] = 0;	// etc..
+$field[6]['em'] = 0;
+
+// note: if you use $shrink, you can set your main title quite big and have shrink always pick the 
+// best font size. not too big, though, or titles like "U2 - War" could knowck everything for six
+// but then, who listens to U2 these days? heh (jk Bono m8!)
+
+
+
+//	positioning..
+
+// thin strips of lead between the rows of text	
+// [default: 1-10, depending on ttf font, 1 for built-in GD font]
+$leading = 1;
+
+// nudge text right ( 3 ) or left ( eg. -3 ) [default: 0]
+$nudge = 0;
+
+// push all the text down ( eg. 5 ) or up ( -5 ) from the top	[default: 3-9 ish]
+$push = 7;
+
+// oh gawd, don't mess with this!  (still experimental, ttf only, will require tweaking!)
+// a skew of 1 or two is interesting over the right background.
+$skew = 0;
+
+
+// long text fields will be trimmed automatically to fit whatever image size
+// but you can trim them more (1,2,3, etc) or less (-1,-2,-3, etc) ..
+$trim_adjust = 0;
+
+// or if you prefer, you can have the text automatically shrink down so that it 
+// ALL fits comfortably within the given space..
+$auto_shrink = true;
+
+
+//	field push
+//	you can push the individual lines up or down with this.
+//	positive numbers push down, negative numbers pull up
+//	it's okay to leave unused values uncommented..
+//$field[1]['fp'] = 0;
+$field[2]['fp'] = -1;
+//$field[3]['fp'] = 0;
+//$field[4]['fp'] = 0;
+//$field[5]['fp'] = 0;
+
+
+// per-line alignment
+// you can override the default alignment on a per-line basis.
+// handy, but don't overdo it!
+
+//$field[1]['align'] = 'center';
+//$field[2]['align'] = 'center';
+//$field[3]['align'] = 'right';
+//$field[4]['align'] = 'center';
+
+/*
+	progress bar..
+	this is the coolest thing sinced sliced silicon!
+
+tells the viewer how far into the track you are, a percentage (ie 33%)
+if you pause or stop, it will pause or stop, follows your jumps, too. */
+$do_bargraph = true;
+
+// how thick?
+// it's horizontal, like "horizon" ;o)
+// will hug the bottom inside your borders like a good little bar-graph
+// enter any number (14 is good) or 'fill' to fill the entire background!
+$thickness = 14;
+//$thickness = 'fill'; // TOTAL PROGRESS!
+
+
+// if you are using a non-symetrically framed external background image
+// you might want to squeeze the progress bar in (1) or out (-1) 	[default: 0]
+$squeeze = 0;
+
+// maybe you have a strange off-centred frame..
+// nudge the whole progress bar left ( eg -2 ) or right ( 2 )
+$xnudge = 0; // default: 0
+// or up ( eg -2 ) and down ( 2 )..
+$ynudge = 0; // default: 0
+
+
+/*
+	progress bar text
+								*/
+
+
+// draw text onto the progress bar? (YES!)
+$do_btxt = true;
+
+// color of bargraph text..		[default: '#339966' <-green]
+// if you comment this out, picsig will assign it the same color as the main text
+// unless you specify transparency, below.
+$btxt_color = '#339966';
+//$btxt_color = '#ffdd00';
+
+// transparent bar text..	(true/false)
+// this setting overrides $btxt_color
+$btxt_trans = true;
+
+// really, 1 is best.
+$btxt_size = 1;
+
+// choose from 'top', 'middle', or 'bottom'
+// the default, in case you misspell it, is 'middle' ;o)
+$btxt_valign = 'middle';
+
+// browser info in progress bar?
+// currently picsig shows "your ip is.. 154.213.14.124" or whatever it is.
+$do_browser_info = true;
+
+// this scrolls along behind the % indicator.
+// you might prefer "you are tuning in from.. ", or something.
+$ip_string = 'your ip is.. ';
+
+// maybe 'track: ' or something. default is an empty string.
+$percent_string = '';
+
+/*
+	bar-graph colour
+
+	there are two ways to do this, first is to use one of the preset "themes"
+	some of these are neat, and I definitely recommend you check them out.
+
+	the second, and far more interesting method, is by specifying the mathematical
+	calculations yourself. this is easier than it looks, and very interesting results
+	are very possible.
+																							*/
+// use built-in themes?
+$use_themes = true;
+
+// uncomment whatever theme you fancy..
+// remember later values override earlier values, so you can try out all these themes fairly quickly.
+$theme =  'regular feiry progress with cheese'; // the default
+//$theme =  'gentle fire';
+//$theme =  'interesting feiry'; // (watch out for thick borders!)
+//$theme =  'basic grey grad';
+//$theme =  'gentle grey grad';
+//$theme =  'the torrenteer';
+//$theme =  'swarm member x';
+//$theme =  'ouch!';
+//$theme =  'mr. green';
+//$theme =  'mrs. green';
+//$theme =  'toffee mint';
+//$theme =  'green meanie';
+//$theme =  'deep sky fader';
+//$theme =  'blue duo';
+//$theme =  'multicoloured';
+//$theme =  'its gonna break';
+//$theme =  'stripees';
+//$theme =  'white into red';
+//$theme =  'black into white';
+
+/*
+	bar-graph colour calculations..
+
+	$i will increment from some low number (say 2) to a high one (say 348, basically the
+	image width, minus any frames, etc) so essentially, you can use whatever whacky
+	mathematics you want. a few suggested themes are at the foot of pic.php
+	if you really wanted to, you could use static values, I guess :/
+																							*/
+$calc_red 	= '255-(($i/2)/255)/$lf';
+$calc_green = '255-($i/2)/$lf';
+$calc_blue 	= '($i/2)-255/$lf';
+
+
+/*	
+	length factor		[default: $lf = 1;]
+	if you are using a looong sig (say > 300 pixels wide) you may wish to increase this
+	which will cause the gradient in the progress bar to loop less often. 
+	decimal fractions are okay, eg. $lf = 1.13159; or whatever.
+	note: sometimes this can have unexpected results! test test test!
+																		*/
+$lf = 1;
+
+
+/*
+	progress bar termination.	[default: 1]
+
+	you can set how wide you'd like the termination bar to be.
+	if you set $termination to 0, it disappears.
+															*/
+$termination = 1;
+
+
+// the termination bar will normally assume the same color as the frame
+// but you can override that here if you wish (uncomment)..
+//$term_color = '#ff0000'; 
+
+
+// draw a frame around the progress bar?
+// set to true or false, or use a number for any thickness
+// 0 or false makes it disappear (the default).
+$bar_frame = false;
+
+
+/*
+	progress bar transparency level
+	
+	level of transparency for progress bar	[0-100, default: $bar_trans = 0;]
+	normally we leave this at 0 and let it merge fully with the color_layer
+	and whatever values you set for its transparency will set both. but you
+	may wish further control of this parameter, or, if you have disabled the
+	color_layer (and $do_frame) you will probably want to set a new
+	transparency level here, so the progress bar can retain its transluceny.						
+																			*/
+$bar_trans = 0;
+
+
+
+	/*
+		end prefs. yup.
+
+		*/
+
+?>

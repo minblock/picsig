@@ -1,0 +1,41 @@
+
+	xmms info-pipe plugin..
+
+	Unpack "xmms-infopipe-1.3.tar.gz" and follow the instructions within.
+	Like most *nix software you just do..
+
+		./configure
+		make
+		make install
+	
+	You'll likely need be root for the last step, which installs the library into..
+
+		/usr/X11R6/lib/xmms/General
+
+	or possibly..
+
+		/usr/lib/xmms/General
+
+	Anyways, enable the plugin in your xmms prefs, and a symlink will be available here..
+
+		/tmp/xmms-info
+	
+	reading from this "named-pipe" (a socket, rather clever!) will get you something like this..
+
+		XMMS protocol version: 2467
+		InfoPipe Plugin version: 1.3
+		Status: Playing
+		Tunes in playlist: 252
+		Currently playing: 116
+		uSecPosition: 109201
+		Position: 1:49
+		uSecTime: 238288
+		Time: 3:58
+		Current bitrate: 128000
+		Spicing Frequency: 44100
+		Channels: 2
+		Title: The Laziest Men on Mars - Invasion of the Gabber Robots
+		File: /home/mp3s/sites/mp3.com/techno/Invasion_of_the_Gabber.mp3
+
+
+	which signux parses to create the data to send for our picsig update.

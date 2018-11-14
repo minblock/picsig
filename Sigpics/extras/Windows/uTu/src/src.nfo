@@ -1,0 +1,98 @@
+				 
+						#############                
+					   ###############               
+						#############                
+		  ##       ###       ####      ###      ###  
+		 ####     ####       ####      ####     #### 
+		 ####     ####       ####      ####     #### 
+		 ####     ####       ####      ####     #### 
+		 ####     ####       ####      ####     #### 
+		 ####     ####       ####      ####     #### 
+		 ####     ####       ####      ####     #### 
+		 #####   #####       ####      ####    ##### 
+		  ############       ####      ############# 
+		  ############       ####       ############ 
+			####  ###         ##          ####  ###   c source
+
+							   
+                       utu  v0.3 c source
+                 [uptime updater for picsig..]
+
+If you don't have Microsoft Visual Studio, I have included all the
+bits you need to develop with libcurl inside the "dev stuff" folder.
+please read the nfo file in there if you decide to use them.
+
+otherwise, compile libcurl yourself ...
+
+In order to recompile this source you will need to have the libcurl 
+libraries installed somewhere on your system. you need..
+
+	*  libcurl.dll
+	*  libcurl.lib
+
+	*  all the curl headers
+
+The first two must be compiled before you use them. 
+download the curl package to get all the source files..
+
+	http://curl.haxx.se/download.html	(over one million downloads!)
+
+unzip the archive somewhere, and navigate into the "lib" directory.
+
+
+there are two ways you can proceed..
+
+1.
+click the Visual Studio project file, "curllib.dsw", and build the
+project in Visual Studio. It's most likely possible to get a leaner,
+faster binary by compiling libcurl by other means, but this is the 
+quickest way.
+
+2.
+Open Bloodshed <http://www.bloodshed.net/devcpp.html> ond go into
+file >> import >> import MS Visual C++ Project, and locate the 
+"curllib.dsw" project file. import. now the fun begins!
+
+	(this as far as I've got with method 2!)
+	(or anyone else for that matter! haha)
+
+
+when you're done, go into the new "debug" folder.
+
+place libcurl.dll and libcurl.lib into your C "lib" folder (inside
+your main bloodshed folder, if you use bloodshed) and copy the curl
+headers folder from the curl "include" folder, to your own "include"
+folder, so now you have..
+
+...\lib\libcurl.dll
+...\lib\libcurl.lib
+
+and..
+
+...\include\curl\curl.h
+...\include\curl\curlver.h
+etc.
+
+that's all you need, the headers, and the two library files.
+now whenever you need curl functions in your application, do..
+
+#include <curl/curl.h>
+
+at the top of your program, and away you go! remember you'll need
+to include a copy of libcurl.dll with your application! it's best
+also copied into your PATH somewhere, so your compiled apps can
+find it, or else leave a copy next to the application.
+
+goan, make big fun now!
+
+;o)
+(or
+
+ps.. you can keep the headers and libs elsewhere if you pass these
+parameters to your compiler, but it makes sense to keep them in your
+regular tree, these are real handy functions to have around!
+
+
+refs:
+http://curl.haxx.se/libcurl/c/visual_studio.pdf
+http://corz.org/dev/php/workshop/bael+corz.dynamic.php.sig.page.php

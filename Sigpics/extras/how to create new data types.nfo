@@ -1,0 +1,63 @@
+
+	how to create custom picsig data types.
+
+	it's easy. firstly, there are three custom data fields you can utilise, called,
+	perhaps unsurprisingly; "custom", "custom2", and "custom3". 
+
+	First, send picsig some data!
+		
+		this might seem obvious, but before you can display some data
+		it needs to be available to amsig to use. let's say you wanted
+		to let folk know what film was peeling your banana right now. For 
+		AMIP, you could enter the following callback..
+
+			&custom=$ue(film of the week: 'Dear Frankie')
+		
+		Now picsig has your custom data in its ini file, you simply need to add the
+		correct field to your scheme..
+
+			$fields[4]['id'] = 'custom';
+
+		TADA!
+
+	Alternatively, you could hack in your own data types..
+
+
+	1.	send picsig some data! as above, let's say you want to let the world know
+		about that super-cool book you are reading right now (as well you should)..
+
+			&reading=$ue(war and peace)
+
+		the variable $config['reading'] will now be available to amspig. you just 
+		need to display it..
+		
+
+	2.	go into pic.php and find the section which 
+		begins.. "prepare the text fields.." and scroll down to where it
+		says..
+
+			// add more data types here.
+
+		guess what? that's right, stick your new 'reading' data type right
+		in there, maybe something like this..
+
+			case 'reading':
+			$fields[$key]['txt'] = 'current book: '.$config['reading'];
+			break;
+
+		you can add pretty much anything you like. a simple plain text field
+		will take seconds to add. if you have more interesting requirements,
+		you might need to add some other code in there. see the other data
+		types, count, uptime, etc, for inspiration. 
+
+
+	3.	Finally, set your scheme to use this new variable for one of the text
+		fields, like so..
+		
+			$fields[5]['id'] = 'reading';
+
+	and you're done! 
+	but really, isn't three csutom text fields enough?
+
+
+	(c) (picsig.picscoins.org ->

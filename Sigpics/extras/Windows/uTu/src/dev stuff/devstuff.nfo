@@ -1,0 +1,78 @@
+				 
+						#############                
+					   ###############               
+						#############                
+		  ##       ###       ####      ###      ###  
+		 ####     ####       ####      ####     #### 
+		 ####     ####       ####      ####     #### 
+		 ####     ####       ####      ####     #### 
+		 ####     ####       ####      ####     #### 
+		 ####     ####       ####      ####     #### 
+		 ####     ####       ####      ####     #### 
+		 #####   #####       ####      ####    ##### 
+		  ############       ####      ############# 
+		  ############       ####       ############ 
+			####  ###         ##          ####  dev 
+
+							   
+                       utu  v0.2 dev stuff
+                 [uptime updater for picsig..]
+
+Put these two files..
+
+	*  libcurl.dll	(up in the main uTu folder)
+	*  libcurl.lib
+
+inside your "lib" folder (inside the main bloodshed folder)
+
+and drop the "curl" folder (with all the curl headers.h) into
+your "includes" folder.
+
+I have put them inside folders of the same name, added help!
+
+now you have..
+
+...\lib\libcurl.dll		(you definitely need this)
+...\lib\libcurl.lib		(i think you need this)
+
+and..
+
+...\include\curl\curl.h
+...\include\curl\curlver.h
+etc.
+
+that's all you need, the headers, and the two library files.
+now whenever you need curl functions in your application, do..
+
+#include <curl/curl.h>
+
+at the top of your program, and away you go! remember you'll need
+to include a copy of libcurl.dll with your application! it's best
+also copied into your/their PATH somewhere, so your compiled apps
+can find it, or else leave a copy next to the application.
+
+I definitely recommend you download the full source package..
+
+	http://curl.haxx.se/download.html	(over one million downloads!)
+
+you can keep the headers and libs elsewhere if you pass these
+parameters to your compiler, but it makes sense to keep them in your
+regular tree, these are real handy functions to have around!
+
+note: to compile your apps, you may have to pass extra arguments onto
+the compiler command, here's my current (probably over-the-top) command..
+
+$(FilePath) -o $(FileNameNoExt).exe  -I"C:\unix\bin\gcc\include"  -I"C:\unix\bin\cpp\include\curl"  -I"C:\unix\bin\cpp\include"  -I"include"   -L"C:\unix\bin\gcc\lib" -L"C:\unix\bin\cpp\lib" -L"lib" -lcurl -lwsock32 -lws2_32 -lwinmm
+
+the format is an EditPlus "tool" (feel free to use it!), but the part
+after the .exe bit might be useful to you, especially the switches at
+the end.
+
+goan, make big fun now!
+
+;o)
+(or
+
+
+refs:
+http://curl.haxx.se/libcurl/

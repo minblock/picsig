@@ -1,0 +1,99 @@
+<?php
+// do not alter anything above this line!
+
+/*
+	picsig "HAL 9000" scheme (for Dave)
+
+	The HAL9000 is the computer on board the Jupiter mission craft "S.S. Discovery"
+	in "2001: A Space Odyssey", a film by Stanley Kubrick.
+
+	see "standard.scheme" for a full description of all the settings.
+
+	(c) (or @ corz.org & picsig.picscoins.org 2005 ->
+								*/
+
+// text field contents
+$fields[1]['id'] = 'playing';
+$fields[2]['id'] = 'status';
+$fields[3]['id'] = 'title';
+$fields[4]['id'] = 'uptime';
+
+$playing_string = 'decoding human audio..';
+$stopped_string = "I'm sorry, I can't play that..";
+
+// quality levels
+$truecolor = true;
+$q = 90;
+$output_format = 'png';
+$trans_color = '#ffffff';
+
+// background image
+$do_col_bg = false;
+$image_file = 'img/hal9000.png';
+$merge_images = true;
+$transparency = 75;
+
+// merged
+$merge_x = 0;
+$merge_y = 0;
+$mx_nudge = 0;
+$my_nudge = 0;
+
+// random background colours..
+$target_color = '#6A5C5D';
+$variation = 0;
+
+// frame..
+$border = 3;
+$frame_color = '#ffffff';
+$do_frame = false;
+
+// text.
+$font_size = 2;
+$text_color = '#70DF00';
+$ttf = true;
+$font_face = 'fonts/spacedock-stencil';
+$font_face = 'fonts/babyuniverse';
+$font_face = 'fonts/profont';
+//$font_face = 'fonts/automati';
+//$font_face = 'fonts/profont';//:distro:
+//$font_face = realpath('fonts/profont.ttf');
+$ttf_size = '10';
+$antialiasing = true;
+$bold = false;
+$align = 'left';
+$field[1]['em'] = 2;
+$field[2]['em'] = -2;
+$field[4]['em'] = -2;
+
+// move all the text
+$leading = 4;
+$nudge = 48;
+$push = 13;
+$skew = 0;
+$trim_adjust = 2;
+$auto_shrink = true;
+$field[2]['fp'] = -1;
+
+// progress bar..
+$do_bargraph = true;
+$thickness = '15';
+$squeeze = 4;
+$xnudge = 0; 
+$ynudge = -3;
+$btxt_color = '#B7C6C0';
+$btxt_trans = false;
+$btxt_size = 1;
+$btxt_valign = 'middle';
+$do_browser_info = true;
+$ip_string = 'life-form observed at.. ';
+$percent_string = 'track: ';
+$use_themes = true;
+$theme =  'green meanie';
+$lf = 2;
+$termination = 3;
+$term_color = '#ff0000';
+$bar_trans = 66;
+
+// do not alter anything below this line!
+?>

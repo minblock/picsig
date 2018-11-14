@@ -1,0 +1,70 @@
+<?php
+// do not alter anything above this line!
+
+/*
+	picsig the-blues scheme
+	see "standard.scheme" for a full description of all the settings.
+
+	(c) (or @ corz.org & picsig.picscoins.org 2005 ->
+											*/
+
+// text field contents
+$fields[1]['id'] = 'playing';
+$fields[2]['id'] = 'status';
+$fields[3]['id'] = 'title';
+$fields[4]['id'] = 'uptime';
+
+$playing_string = '  now playing..';
+$stopped_string = '  last played..';
+
+// quality levels
+$truecolor = true;
+$output_format = 'png';
+
+// background image
+$do_col_bg = true;
+$img_width = 321;
+$img_height = 90;
+
+// random background colours
+$target_color = '#66CDFF';
+$variation = 7;
+
+// frame..
+$border = 2;
+$frame_color = '#ffffff';
+$do_frame = true;
+
+// text.
+$text_color = '#ffffff';
+$ttf = true;
+$font_face = 'fonts/edg';
+$ttf_size = '9';
+$antialiasing = true;
+$align = 'center';
+$field[1]['em'] = 2;
+$field[2]['em'] = -2;
+$field[4]['em'] = -2;
+
+// move all the text
+$leading = 6;
+$nudge = 0;
+$push = 5;
+$trim_adjust = 0;
+$field[2]['fp'] = -1;
+
+// progress bar..
+$do_bargraph = true;
+$thickness = 'fill';
+$btxt_color = '#eeeeee';
+$btxt_trans = false;
+$btxt_size = 1;
+$btxt_valign = 'bottom';
+$do_browser_info = true;
+$ip_string = 'your ip is.. ';
+$use_themes = true;
+$theme =  'blue two';
+$termination = 2;
+
+// do not alter anything below this line!
+?>

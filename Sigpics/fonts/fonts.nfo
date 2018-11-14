@@ -1,0 +1,93 @@
+
+picsig fonts..
+
+	GD has a built-in font, which is fine for presenting information, but for
+	real coolness, wow-factor, whatever, you need to use a truetype font.
+
+	Thought you'll doubtless have many of your own,
+	three are included with picsig..
+
+
+profont.ttf
+aka. 'ProFontWindows', a 'monaco' clone for non-macs
+
+		a neat monospaced font for picsig, or general programming use (9pt).
+		if you want to use it for your picsig, put it in the same folder as
+		pic.php and edit the truetype preferences within.
+
+		note the new version uses point sizes 2 sizes smaller than the old
+		version (enclosed). I've no idea why they changed it. If you grab a
+		newer version, you'll need to alter the size. I prefer the look (AND
+		the sizing) of the old version, which is why I included it.
+		
+		for more info about ProFont, and a few different versions, see here..
+
+			http://www.tobiasjung.net/profont/index.html
+	
+
+edg.ttf
+aka. Expresso Deco Gothic SSi
+
+		I have contacted SSi for permission to distribute their (ancient) 
+		Expresso Deco Gothic font along with picsig, though after trying
+		every possible variant of email address on their website, and all
+		standard domain contact addresses (one got through!), as well as
+		researching them and finding out they pretty much just ripped off
+		other company's fonts anyway, I've decided to just distribute it,
+		and if ssi have a problem with that, THEY CAN CONTACT ME!
+
+		See, you wouldn't have heard of SSi if it wasn't for picsig, they
+		should be paying me for this! heh
+
+
+abtechia.ttf
+aka. Abtechia
+		
+		I got this online, and I know absolutely nothing about it other than
+		it's by John A. Matheson, made in 1996, and looks pretty cool at any
+		size. The archive didn't even have a readme! Och well, cheers for a
+		great free truetype, John!
+
+		source: http://resources.bravenet.com/free_fonts
+
+
+
+
+
+more free truetype fonts..
+
+		check out these links..
+		[just reading the names of these fonts will give you hours of enjoyment]
+
+			http://www.1001freefonts.com/
+				AT LEAST 1001! some truly funky fonts here!
+
+			http://www.nofonts.com/
+				sadly the fonts come as-is, with no documentation, credits, etc.
+				just have to hope the creator embedded their information...
+
+			http://www.fontface.com/
+				this search engine throws up a preview of ALL your
+				hits in one big page, corzoogle-style. sadly, not many free fonts.
+
+			http://resources.bravenet.com/free_fonts/
+				also has some cool 2001: A Space Odyssey stuff.
+
+			http://www.fontframe.com/
+			http://www.thefreesite.com/Free_Fonts/
+			http://www.macfonts.com/index.php
+			http://www222.pair.com/sjohn/fonts.htm
+			http://www.all-free-fonts.com/
+
+		and don't forget..
+
+			http://www.google.com/search?q=free+truetype+fonts
+
+		note:
+		many free truetype fonts don't scale down too well. That's not putting down
+		free truetypes, it's just that most of them were designed for titles, ie. BIG.
+		So don't be put off; some work beautifully.
+
+note:	if you can't get truetype fonts to work, check out the notes inside
+		"standard.scheme", which will hopefully guide you into a solution.
+

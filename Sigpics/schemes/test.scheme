@@ -1,0 +1,100 @@
+<?php
+// do not alter anything above this line!
+
+/*
+	picsig "HAL 9000" scheme (for Dave)
+
+	The HAL9000 is the computer on board the Jupiter mission craft "S.S. Discovery"
+	in "2001: A Space Odyssey", a film by Stanley Kubrick.
+
+	see "standard.scheme" for a full description of all the settings.
+
+	(c) (or @ corz.org & picsig.picscoins.org 2005 ->
+								*/
+
+// text field contents
+$fields[1]['id'] = 'playing';
+$fields[2]['id'] = 'status';
+$fields[3]['id'] = 'title';
+$fields[4]['id'] = 'uptime';
+$fields[5]['id'] = 'last'; // for expicle
+$fields[6]['id'] = 'custom'; // for expicle
+$fields[7]['id'] = '';
+$fields[8]['id'] = 'counter'; 
+
+$playing_string = 'now playing..';
+$stopped_string = "stopped";
+
+// quality levels
+$truecolor = true;
+$q = 90;
+$output_format = 'gif';
+$trans_color = '#000000';
+
+// background image
+$do_col_bg = false;
+$image_file = 'img/imacgalt.png';
+$merge_images = false;
+$transparency = 75;
+
+// frame..
+$border = 0;
+$do_frame = false;
+
+// text.
+$font_size = 2;
+$text_color = '#ffffff';
+$ttf = true;
+$font_face = 'fonts/edg';
+$ttf_size = '10';
+$antialiasing = true;
+$bold = false;
+$align = 'left';
+$field[1]['em'] = 3;
+$field[2]['em'] = -2;
+$field[3]['em'] = -1;
+$field[4]['em'] = -2;
+$field[8]['em'] = -3;
+
+// move all the text
+$leading = 6;
+$nudge = 8;
+$push = 14;
+$skew = 0;
+$trim_adjust = 100;
+$auto_shrink = 1;
+$field[2]['fp'] = -1;
+
+// progress bar..
+$do_bargraph = true;
+$thickness = '140';
+$squeeze = 110;
+$xnudge = -46; 
+$ynudge = -55;
+$btxt_color = '#dddddd';
+$btxt_trans = false;
+$btxt_size = 1;
+$btxt_valign = 'bottom';
+$ip_string = 'peeping from.. ';
+$percent_string = 'track: ';
+//$use_themes = true;
+$theme =  'green meanie';
+$theme =  'gentle firez';
+//$theme =  'ouch!';
+//$theme =  'toffee mint';
+//$theme =  'green meanie';
+//$theme =  'deep sky fader';
+$theme =  'blue duo';
+//$theme =  'multicoloured';
+//$theme =  'its gonna break';
+//$theme =  'stripees';
+//$theme =  'white into red';
+//$theme =  'black into white';
+$lf = 1;
+$termination = 1;
+$term_color = '#A0975F';
+//$bar_frame = 1;
+$bar_trans = 70;
+
+// do not alter anything below this line!
+?>

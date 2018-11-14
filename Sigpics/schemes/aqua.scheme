@@ -1,0 +1,77 @@
+<?php
+// do not alter anything above this line!
+
+/*
+	picsig aqua scheme
+
+	see "standard.scheme" for a full description of all the settings.
+
+	(c) (or @ corz.org & picsig.picscoins.org 2005 ->
+												*/
+$fields[1]['id'] = 'title';
+$fields[2]['id'] = 'album';
+$fields[3]['id'] = 'status';
+$fields[4]['id'] = 'uptime';
+$fields[5]['id'] = 'playing';
+$playing_string = 'now playing';
+$stopped_string = 'stopped';
+$field[5]['align'] = 'right';
+$truecolor = true;
+$q = 100;
+$output_format = 'png';
+$do_col_bg = true; // YES!
+$img_width = 250;
+$img_height = 100;
+$image_file = 'img/aqua.png';
+$merge_images = true;
+$pre_merge = true;
+$transparency = 70;
+$merge_x = 0;
+$merge_y = 18;
+$mx_nudge = 0;
+$my_nudge = 0;
+$border = 1;
+$target_color = '#5e99cf';
+$variation = 15;
+$frame_color = '#72b9fe';
+$do_frame = true;
+$font_size = 2;
+$text_color = '#ffffff'; // black
+$ttf = true;
+$font_face = 'fonts/abtechia';
+$ttf_size = '7';
+$bold = false;
+$center = true;
+$antialiasing = true;
+$trim_adjust = 2;
+$field[3]['em'] = -1;	// 0	(ttf)
+$field[4]['em'] = -1;	// -2	(ttf)
+$field[5]['em'] = 1;	// etc..
+$leading = 5;
+$nudge = 0;
+$push = 7;
+$skew = 0;
+$field[1]['fp'] = -2;
+$field[2]['fp'] = -2;
+$field[3]['fp'] = -1;
+$field[4]['fp'] = 1;
+$field[5]['fp'] = 15;
+$do_bargraph = true;
+$thickness = 10;
+$squeeze = 0;
+$xnudge = 0; // default: 0.
+$ynudge = -22; // default: 0
+$btxt_color = '#eeeeff';
+$btxt_trans = false;
+$btxt_size = 1;
+$btxt_valign = 'middle';
+$do_browser_info = false;
+$ip_string = 'your ip is.. ';
+$use_themes = true;
+$theme =  'blue duo';
+$calc_red 	= '255-(($i/2)/255)';
+$calc_green = '255-($i/2)';
+$calc_blue 	= '($i/2)-255';
+$termination = 1;
+
+?>

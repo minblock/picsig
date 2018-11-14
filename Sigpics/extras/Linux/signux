@@ -1,0 +1,131 @@
+#!/bin/sh
+#
+#	signux  ..the picsig update script for Linux..  http://picsig.picscoins.org	[v0.1]
+#
+#	needs the "xmms-infopipe" plugin for the XMMS media player..
+#	http://www.beastwithin.org/users/wwwwolf/code/xmms/infopipe.html
+#	some Linux systems have it pre-installed.
+#
+#	Also works with Beep Media Player, if you apply this patch to info-pipe before compiling..
+#	http://www.beastwithin.org/users/wwwwolf/code/xmms/xmms-infopipe-1.3-for-beepmp.patch.gz
+#
+#	info-pipe creates a "named pipe" [/tmp/xmms-info] with textual song info which we parse and send
+#	to our picsig via cURL. this script expects you to have cURL properly installed (most *nix systems do)
+# 
+#	put it in a cron and run every minute or so..
+#
+#	# picsig update (every minute)
+#	*/1 * * * * /usr/local/bin/signux > /dev/null 2>&1 
+#
+#	or maybe..	(same timing, but logged - crazy!)
+#
+#	0-59 * * * * /usr/local/bin/signux >> /var/log/cron 2>&1
+#
+#	or drop inside a timed loop.
+#
+
+	# basic prefs (status prefs are below)
+	password="PASSWORD"
+	url="http://mydomain.com/path/to/pic.php"
+	xmms_file=/tmp/xmms-info
+
+
+# are we up and running?
+piping=`cat $xmms_file` >&2
+if [ -s "$piping" ]; then
+	printf "\nno update performed\ncouldn't locate named pipe: $xmms_file\n\n" >&2
+	exit 1
+fi
+
+# if we work these out now, you can use them in your status..
+bitrate=`cat $xmms_file | grep 'Current bitrate' | sed -e 's/^.*: //'`
+frequency=`cat $xmms_file | grep 'Spicing Frequency' | sed -e 's/^.*: //'`
+song_time=`cat $xmms_file | grep '^Time' | sed -e 's/^.*: //'`
+frequency=`expr $frequency / 1000`
+bitrate=`expr $bitrate / 1000`
+
+
+	# more prefs! ..
+	play_status="${song_time}m | ${bitrate}kb/s | ${frequency}KHz"
+	pause_status='paused for thought'
+	stopped_status='stopped for peace'
+
+# setup variables to send..
+uTu=`cat /proc/uptime | awk 'BEGIN { FS = "." } { print $(NF-2) }'`
+playing=`cat $xmms_file | grep 'Status' | sed -e 's/^.*: //'`
+title=`cat $xmms_file | grep '^Title' | sed -e 's/^.*: //'`
+length=`cat $xmms_file | grep '^uSecTime' | sed -e 's/^.*: //'`
+length=`expr $length / 1000`
+pos=`cat $xmms_file | grep '^uSecPosition' | sed -e 's/^.*: //'`
+pos=`expr $pos / 1000`
+
+# perhaps we will recompile info-pipe with album name info..
+# in the absence of "album", picsig will use "dir", so let's get that..
+file_path=`cat $xmms_file | grep '^File' | sed -e 's/^: //'`
+dir=`echo $file_path | awk 'BEGIN { FS = "/" } { print $(NF-1) }'`
+
+# other stuff that's easy to get on a linux box..
+puter_type=`cat /proc/cpuinfo | grep '^model name' | sed -e 's/^.*: //'`
+puter_speed=`cat /proc/cpuinfo | grep 'cpu MHz' | sed -e 's/^.*: //'`
+# insert favourite geek data ;o)
+
+
+# what's our status?
+case "$playing" in
+	'Playing')
+		status=$play_status
+		;;
+	'Paused')
+		status=$pause_status
+		;;
+	'Stopped')
+		status=$stopped_status
+		;;
+	*)
+		status='no status given'
+		;;
+esac
+
+url_encode () {
+	echo "$@" | awk	'
+		BEGIN {
+			# with inspiration from Heiner Steven and Rick Richardson
+			split ("1 2 3 4 5 6 7 8 9 A B C D E F", hexit, " ")
+			hexit [0] = 0 # setup the hex values we will use..
+			for (i = 1 ; i <= 255 ; ++i) ord[ sprintf ("%c", i) "" ] = i + 0
+		} {
+			encoded = ""
+			for (i = 1 ; i <= length ($0) ; ++i) {
+				c = substr ($0, i, 1)
+				if ( c ~ /[a-zA-Z0-9.-]/ ) { # allow only basic chrs
+					encoded = encoded c
+				} else { # encode everything else..
+					lo = ord[c] % 16
+					hi = int (ord[c] / 16);
+					encoded = encoded "%" hexit [hi] hexit [lo]
+				}
+			}
+		#printf encoded
+		}
+		END {
+		printf ("%s", encoded)
+		}
+	'
+}
+# if you have mawk, oawk, gawk, or whatever, use that instead. (probably symlinked)
+
+# remember to URLencode any other "strings" you might add to the $data
+title=`url_encode $title`
+status=`url_encode $status`
+
+# finally, send the picsig update via curl POST.. (may split for different status. hmm)
+data="pass=$password&playing=$playing&uptime=$uTu&length=$length&pos=$pos&title=$title&status=$status&dir=$dir"
+curl -d "$data" $url
+
+exit 0
+
+
+# alternatively, this "poor mans URLencode" would would cover most ID3 strings..
+#url_encode () {
+#   echo "$@" | sed -e 's/ /%20/g' -e 's/\+/%2B/g' -e 's/\&/%26/g'
+#}

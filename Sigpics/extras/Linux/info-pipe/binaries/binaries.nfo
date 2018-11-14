@@ -1,0 +1,8 @@
+
+	Linux info-pipe binaries.
+
+	I DEFINITELY recommend you compile your own, it's very simple, and ensures
+	you have the correct binary (library) for your system.
+
+	However, yeah, I've been there, and you'll try anything! so here you go..
+	This works great on my (Slackware 10.1) system.

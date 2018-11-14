@@ -1,0 +1,27 @@
+						
+	picsig schemes
+
+	these are scheme files for picsig. they contain all the visual
+	preferences for each particular scheme.
+
+	open "standard.scheme" in a decent text editor and check out the
+	notes within. 
+
+	Make a copy of any scheme you like, rename it, and you now have 
+	a brand new custom scheme, "test.scheme" is a good choice because,
+	like standard.scheme, it contains ALL the preferences, and almost
+	none of the accompanying notes.
+
+	a totally blank file would work okay, picsig would use its built-in
+	default, so essentially, your scheme file only needs to set preferences
+	which you wish to *override*.
+
+
+	ps.. to disable a scheme from being selected randomly (if you have
+	random schemes enabled) rename it's extension to ._scheme, like this..
+	"standard._scheme". or esle remove it from the schemes folder.
+	
+	"._scheme" is the recommended extension for disabled schemes (though you
+	could use whetever you like) because if you use the windows filetype add-on
+	(in the extras folder of the distribution) a "._scheme" file will share the
+	same properties as a ".scheme" file, same icon, default editor, etc. handy.

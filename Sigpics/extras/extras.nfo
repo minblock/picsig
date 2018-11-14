@@ -1,0 +1,80 @@
+
+	picsig optional extras
+	----------------------
+
+	although pic.php can make dynamic signatures all by iteslf, these optional
+	extras will improve it immensly..
+
+
+	uTu
+			[in the 'extras' folder, lives in your PATH]
+
+			the picsig uptime updater. 
+			see notes within the uTu folder.
+
+			there is also a libcurl SKD and other stuff, check inside.
+			
+			
+	img
+			[lives in the root folder]
+
+			a folder of images you can use for your picsig's background.
+			this is optional. picsig can generate its own backgrounds, too.
+
+			you can also merge external images with the built-in images for some
+			very interesting and infinitely variable effects. source images must
+			be in png format. alpha transparencies *are* supported. check out the
+			screenshots page for expicles..
+
+			http://picsig.picscoins.org
+			
+			if available, apmsig will use an image called "imagename_play.png"
+			when a song is playing. i.e. if you have a background called "bg.png"
+			and you want some part of the image to alter (like spidey's glowing
+			green eyes) whenever a song is playing, create another image called
+			"bg_play.png", and drop it in the "img" folder. TADA!
+
+
+	schemes
+			["schemes" folder - lives in the root folder]
+			picsig supports schemes.
+
+			a few ready-made schemes are included. you can use just one scheme, no
+			schemes, or a random selection from the schemes folder. in that case 
+			you can even have a "favourite" scheme which will be generated much 
+			more often than the other schemes. currently I'm fond of the iMac girl.
+
+			I've also included an icon and .reg file so that you can register
+			this filetype on a windows system. edit in the location of your
+			favourite text editor. 
+
+			I've set the default to Notepad, but being near-useless, it won't
+			handle the UNIX linebreaks. What can I say? get a decent text editor..
+
+				http://www.editplus.com
+				http://www.pspad.com/en/
+				http://www.textpad.com
+				http://www.emeditor.com
+				http://www.crimsoneditor.com
+
+			So there you go! Now you have no excuse!
+
+				While I'm at it, windows users don't need to complain about the png
+				format when this is available..
+
+				http://irfanview.com/
+
+			I don't get a commission, in fact the author annoys me, but a great wee 
+			imaging app nonetheless!
+
+
+	fonts:
+			three trutype fonts are included for your customising pleasure.
+			notes within that folder.
+
+
+	that's all your optional extras for today! rake around the folders for more goodies
+	and information.
+
+
+	(c) picscoins

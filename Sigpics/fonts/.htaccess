@@ -1,0 +1,3 @@
+# <Files ~ "\.(ttf|fon)$">
+#   deny from all
+#</Files>
